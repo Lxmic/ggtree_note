@@ -35,10 +35,7 @@ print(p1)
 #为一部分树添加背景颜色，着重显示
 p3 <- p1 + geom_hilight(node = 33, fill = "steelblue")
 print(p3)
-#让进化树着色，变成自己需要的颜色。先根据节点，构建自己的颜色数据框
-d <- read.csv("tree_color.csv", header = TRUE)
-d <- data.frame(d)
-#使用%<+%符号强插入颜色数据到树文件中
+
 p6 <- ggtree(tree, layout = "circular", branch.length = "none")+geom_tiplab2(color = "seagreen",  size=3, hjust=-.05)+ xlim(NA, 20)# + geom_text2(aes(subset = !isTip, label=label, color="black"))
 p61 <- ggtree(tree, layout = "circular", branch.length = "none", )+geom_tiplab2(color = "red",  size=2, hjust=-.1)+ xlim(NA, 20)
 print(p6)
@@ -47,3 +44,9 @@ plot_grid(p6, p61, ncol = 2, labels = c("F","G"))
 p7 <- p6 + geom_strip(14, 17, barsize = 3, color = "steelblue", offset = 7, label = "Clade I", offset.text = 1, angle = 60, fontsize = 4, hjust = "center", extend = 0.3) + geom_strip(11, 13, color = "red", barsize = 3, offset = 7, label = "Clade II", offset.text = 1, angle = -15, fontsize = 4, hjust = "center", extend = 0.3) + geom_strip(6, 9, color = "orange", barsize = 3, offset = 7, label = "Clade III", offset.text = 1, angle = 10, fontsize = 4, hjust = "center", extend = 0.3)
 p7
 
+#让进化树着色，变成自己需要的颜色。先根据节点，构建自己的颜色数据框
+d <- read.csv("/Users/lxmic/Desktop/nramp_color.csv", header = TRUE)
+d <- data.frame(d)
+#使用%<+%符号强插入颜色数据到树文件中
+p8 <- p7%<+%d + aes(color = I(color))
+print(p8)
